@@ -1,4 +1,4 @@
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 
 import styles from './constructor-page.module.css';
 
@@ -6,10 +6,11 @@ import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
+import { selectIsLoading } from '../../services/ingredients/slice';
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+  const isIngredientsLoading = useSelector(selectIsLoading);
 
   return (
     <>
@@ -31,3 +32,6 @@ export const ConstructorPage: FC = () => {
     </>
   );
 };
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
