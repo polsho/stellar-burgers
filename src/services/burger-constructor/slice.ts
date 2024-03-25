@@ -1,34 +1,53 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TIngredient, TOrder } from '@utils-types';
+import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 
 type TConstructorItems = {
-  bun: {
-    price: number;
-  };
-  ingredients: TIngredient[];
+  bun: TConstructorIngredient | null;
+  ingredients: TConstructorIngredient[];
 };
 
 type TBurgerConstructorStateProps = {
-  constructorItems: TConstructorItems | null;
+  constructorItems: TConstructorItems;
   orderRequest: boolean;
   orderModalData: TOrder | null;
 };
 
 const initialState: TBurgerConstructorStateProps = {
-  constructorItems: null,
+  constructorItems: { bun: null, ingredients: [] },
   orderRequest: false,
   orderModalData: null
 };
 
 const burgerConstructorSlice = createSlice({
-  name: 'burger-constructor',
+  name: 'burgerConstructor',
   initialState,
   reducers: {
     setOrderRequest: (state, action: PayloadAction<boolean>) => {
       state.orderRequest = action.payload;
     },
-    setConstructorItems: (state, action: PayloadAction<TConstructorItems>) => {
-      state.constructorItems = action.payload;
+    setConstructorItems: (
+      state,
+      action: PayloadAction<TConstructorIngredient>
+    ) => {
+      const ingredient = action.payload;
+      if (ingredient.type === 'bun') {
+        state.constructorItems.bun = ingredient;
+      } else {
+        state.constructorItems?.ingredients?.push(ingredient);
+      }
+    },
+    deleteConstructorItem: (
+      state,
+      action: PayloadAction<TConstructorIngredient>
+    ) => {
+      const ingredient = action.payload;
+      if (ingredient.type === 'bun') {
+        state.constructorItems.bun = null;
+      } else {
+        state.constructorItems?.ingredients?.filter(
+          (item) => item._id !== ingredient._id
+        );
+      }
     }
   },
   selectors: {
@@ -38,7 +57,8 @@ const burgerConstructorSlice = createSlice({
   }
 });
 
-export const {} = burgerConstructorSlice.actions;
+export const { setOrderRequest, setConstructorItems, deleteConstructorItem } =
+  burgerConstructorSlice.actions;
 
 export const reducer = burgerConstructorSlice.reducer;
 
