@@ -17,6 +17,7 @@ import { useDispatch } from '../../services/store';
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
+import { checkUserAuth } from '../../services/auth/actions';
 
 export const App = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(checkUserAuth());
   }, []);
 
   return (

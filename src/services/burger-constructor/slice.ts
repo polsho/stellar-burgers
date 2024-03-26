@@ -41,13 +41,10 @@ const burgerConstructorSlice = createSlice({
       action: PayloadAction<TConstructorIngredient>
     ) => {
       const ingredient = action.payload;
-      if (ingredient.type === 'bun') {
-        state.constructorItems.bun = null;
-      } else {
+      state.constructorItems.ingredients =
         state.constructorItems?.ingredients?.filter(
-          (item) => item._id !== ingredient._id
+          (item) => item.id !== ingredient.id
         );
-      }
     }
   },
   selectors: {
