@@ -29,11 +29,8 @@ export const checkUserAuth = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk(
-    'auth/logout',
-    async () => {
-        await logoutApi();
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-    }
-)
+export const logout = createAsyncThunk('auth/logout', async () => {
+  await logoutApi();
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+});

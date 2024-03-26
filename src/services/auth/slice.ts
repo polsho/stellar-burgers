@@ -23,17 +23,24 @@ const authSlice = createSlice({
       state.user = action.payload;
     }
   },
+  selectors: {
+    selectUser: (state) => state.user,
+    selectIsAuthChecked: (state) => state.isAuthChecked
+  },
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, action) => {
-      state.user = action.payload;
-      state.isAuthChecked = true;
-    })
-    .addCase(logout.fulfilled, (state) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthChecked = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
         state.user = null;
-    })
+      });
   }
 });
 
 export const { setAuthChecked, setUser } = authSlice.actions;
+
+export const { selectUser, selectIsAuthChecked } = authSlice.selectors;
 
 export const reducer = authSlice.reducer;
