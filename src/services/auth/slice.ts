@@ -1,15 +1,17 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { login, logout } from './actions';
+import { login, logout, register } from './actions';
 
 type TAuthState = {
   user: TUser | null;
   isAuthChecked: boolean;
+  isUserRegistered: boolean;
 };
 
 const initialState: TAuthState = {
   user: null,
-  isAuthChecked: false
+  isAuthChecked: false,
+  isUserRegistered: false
 };
 
 const authSlice = createSlice({
@@ -21,11 +23,15 @@ const authSlice = createSlice({
     },
     setUser: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
+    },
+    setUserRegistered: (state, action: PayloadAction<boolean>) => {
+      state.isUserRegistered = action.payload;
     }
   },
   selectors: {
     selectUser: (state) => state.user,
-    selectIsAuthChecked: (state) => state.isAuthChecked
+    selectIsAuthChecked: (state) => state.isAuthChecked,
+    selectIsUserRegistered: (state) => state.isUserRegistered
   },
   extraReducers: (builder) => {
     builder
@@ -35,12 +41,18 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isUserRegistered = true;
+        state.isAuthChecked = true;
       });
   }
 });
 
-export const { setAuthChecked, setUser } = authSlice.actions;
+export const { setAuthChecked, setUser, setUserRegistered } = authSlice.actions;
 
-export const { selectUser, selectIsAuthChecked } = authSlice.selectors;
+export const { selectUser, selectIsAuthChecked, selectIsUserRegistered } =
+  authSlice.selectors;
 
 export const reducer = authSlice.reducer;

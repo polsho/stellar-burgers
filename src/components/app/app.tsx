@@ -47,10 +47,16 @@ export const App = () => {
           path='/login'
           element={<ProtectedRoute onlyUnAuth component={<Login />} />}
         />
-        <Route path='/register' element={<Register />} />
+        <Route
+          path='/register'
+          element={<ProtectedRoute onlyUnAuth component={<Register />} />}
+        />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route
+          path='/profile'
+          element={<ProtectedRoute component={<Profile />} />}
+        />
         <Route path='/profile/orders' element={<ProfileOrders />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>

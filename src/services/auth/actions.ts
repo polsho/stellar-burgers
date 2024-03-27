@@ -1,4 +1,11 @@
-import { getUserApi, loginUserApi, logoutApi, TLoginData } from '@api';
+import {
+  getUserApi,
+  loginUserApi,
+  logoutApi,
+  registerUserApi,
+  TLoginData,
+  TRegisterData
+} from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setAuthChecked, setUser } from './slice';
 
@@ -34,3 +41,13 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
 });
+
+export const register = createAsyncThunk(
+  'auth/register',
+  async (data: TRegisterData) => {
+    const res = await registerUserApi(data);
+    localStorage.setItem('accessToken', res.accessToken);
+    localStorage.setItem('refreshToken', res.refreshToken);
+    return res.user;
+  }
+);
