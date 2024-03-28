@@ -6,8 +6,10 @@ import {
   selectConstructorItems,
   selectOrderRequest
 } from '../../services/burger-constructor/slice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
+  const navigate = useNavigate();
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = useSelector(selectConstructorItems);
 
@@ -18,7 +20,9 @@ export const BurgerConstructor: FC = () => {
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    navigate(-1);
+  };
 
   const price = useMemo(
     () =>

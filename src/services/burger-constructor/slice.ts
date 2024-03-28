@@ -6,13 +6,13 @@ type TConstructorItems = {
   ingredients: TConstructorIngredient[];
 };
 
-type TBurgerConstructorStateProps = {
+type TBurgerConstructorState = {
   constructorItems: TConstructorItems;
   orderRequest: boolean;
   orderModalData: TOrder | null;
 };
 
-const initialState: TBurgerConstructorStateProps = {
+const initialState: TBurgerConstructorState = {
   constructorItems: { bun: null, ingredients: [] },
   orderRequest: false,
   orderModalData: null

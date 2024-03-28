@@ -10,14 +10,12 @@ import {
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
     const dispatch = useDispatch();
-    const constructorItems = useSelector(selectConstructorItems);
 
     const handleMoveDown = () => {};
 
     const handleMoveUp = () => {};
 
     const handleClose = () => {
-      console.log(constructorItems);
       dispatch(deleteConstructorItem(ingredient));
     };
 

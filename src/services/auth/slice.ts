@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { login, logout, register } from './actions';
+import { login, logout, register, updateUser } from './actions';
 
 type TAuthState = {
   user: TUser | null;
@@ -46,6 +46,9 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isUserRegistered = true;
         state.isAuthChecked = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   }
 });
