@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
+import { orderBurger } from './action';
 
 type TConstructorItems = {
   bun: TConstructorIngredient | null;
@@ -25,6 +26,9 @@ const burgerConstructorSlice = createSlice({
     setOrderRequest: (state, action: PayloadAction<boolean>) => {
       state.orderRequest = action.payload;
     },
+    setOrderModalData: (state, action: PayloadAction<TOrder | null>) => {
+      state.orderModalData = action.payload;
+    },
     setConstructorItems: (
       state,
       action: PayloadAction<TConstructorIngredient>
@@ -45,17 +49,35 @@ const burgerConstructorSlice = createSlice({
         state.constructorItems?.ingredients?.filter(
           (item) => item.id !== ingredient.id
         );
+    },
+    clearConstructor: (state) => {
+      state.constructorItems.bun = null;
+      state.constructorItems.ingredients = [];
     }
   },
   selectors: {
     selectConstructorItems: (state) => state.constructorItems,
     selectOrderRequest: (state) => state.orderRequest,
     selectOrderModalData: (state) => state.orderModalData
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(orderBurger.pending, (state) => {
+        state.orderRequest = true;
+      })
+      .addCase(orderBurger.fulfilled, (state, action) => {
+        state.orderModalData = action.payload.order;
+      });
   }
 });
 
-export const { setOrderRequest, setConstructorItems, deleteConstructorItem } =
-  burgerConstructorSlice.actions;
+export const {
+  setOrderRequest,
+  setOrderModalData,
+  setConstructorItems,
+  deleteConstructorItem,
+  clearConstructor
+} = burgerConstructorSlice.actions;
 
 export const reducer = burgerConstructorSlice.reducer;
 

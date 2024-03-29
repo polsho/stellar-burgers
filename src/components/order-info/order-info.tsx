@@ -4,18 +4,14 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from '../../services/store';
 import { selectIngredients } from '../../services/ingredients/slice';
+import { useParams } from 'react-router-dom';
+import { selectOrders } from '../../services/feed/slice';
 
 export const OrderInfo: FC = () => {
+  const params = useParams();
+  const orders = useSelector(selectOrders);
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const orderData = orders?.find((o) => o.number.toString() === params.number);
 
   const ingredients = useSelector(selectIngredients);
 

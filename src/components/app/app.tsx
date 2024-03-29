@@ -24,6 +24,7 @@ import {
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
 import { checkUserAuth } from '../../services/auth/actions';
+import { getFeed } from '../../services/feed/action';
 
 export const App = () => {
   const location = useLocation();
@@ -66,7 +67,12 @@ export const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='' onClose={() => {}}>
+              <Modal
+                title=''
+                onClose={() => {
+                  navigate(-1);
+                }}
+              >
                 <OrderInfo />
               </Modal>
             }
