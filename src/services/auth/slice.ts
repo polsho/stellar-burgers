@@ -5,11 +5,13 @@ import { login, logout, register, updateUser } from './actions';
 type TAuthState = {
   user: TUser | null;
   isAuthChecked: boolean;
+  errorText: string;
 };
 
 const initialState: TAuthState = {
   user: null,
-  isAuthChecked: false
+  isAuthChecked: false,
+  errorText: ''
 };
 
 const authSlice = createSlice({
@@ -25,20 +27,30 @@ const authSlice = createSlice({
   },
   selectors: {
     selectUser: (state) => state.user,
-    selectIsAuthChecked: (state) => state.isAuthChecked
+    selectIsAuthChecked: (state) => state.isAuthChecked,
+    selectErrorText: (state) => state.errorText
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;
+        state.errorText = '';
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.errorText = action.error.message || '';
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.errorText = '';
       })
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;
+        state.errorText = '';
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.errorText = action.error.message || '';
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -48,6 +60,7 @@ const authSlice = createSlice({
 
 export const { setAuthChecked, setUser } = authSlice.actions;
 
-export const { selectUser, selectIsAuthChecked } = authSlice.selectors;
+export const { selectUser, selectIsAuthChecked, selectErrorText } =
+  authSlice.selectors;
 
 export const reducer = authSlice.reducer;

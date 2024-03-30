@@ -4,12 +4,18 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from '../../services/store';
 import { selectIngredients } from '../../services/ingredients/slice';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { selectOrders } from '../../services/feed/slice';
+import { selectMyOrders } from '../../services/my-orders/slice';
 
 export const OrderInfo: FC = () => {
   const params = useParams();
-  const orders = useSelector(selectOrders);
+  const location = useLocation();
+  const from = location.state;
+  const orders =
+    from.background.pathname === '/feed'
+      ? useSelector(selectOrders)
+      : useSelector(selectMyOrders);
   /** TODO: взять переменные orderData и ingredients из стора */
   const orderData = orders?.find((o) => o.number.toString() === params.number);
 

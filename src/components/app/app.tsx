@@ -52,14 +52,36 @@ export const App = () => {
           path='/register'
           element={<ProtectedRoute onlyUnAuth component={<Register />} />}
         />
-        <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route
+          path='/forgot-password'
+          element={<ProtectedRoute onlyUnAuth component={<ForgotPassword />} />}
+        />
+        <Route
+          path='/reset-password'
+          element={<ProtectedRoute onlyUnAuth component={<ResetPassword />} />}
+        />
         <Route
           path='/profile'
           element={<ProtectedRoute component={<Profile />} />}
         />
-        <Route path='/profile/orders' element={<ProfileOrders />} />
+        <Route
+          path='/profile/orders'
+          element={<ProtectedRoute component={<ProfileOrders />} />}
+        />
         <Route path='*' element={<NotFound404 />} />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <Modal
+              title='Детали ингредиента'
+              onClose={() => {
+                navigate(-1);
+              }}
+            >
+              <IngredientDetails />
+            </Modal>
+          }
+        />
       </Routes>
 
       {background && (
@@ -93,7 +115,12 @@ export const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='' onClose={() => {}}>
+              <Modal
+                title=''
+                onClose={() => {
+                  navigate(-1);
+                }}
+              >
                 <OrderInfo />
               </Modal>
             }
