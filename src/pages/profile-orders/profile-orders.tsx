@@ -8,11 +8,11 @@ import { getMyOrders } from '../../services/my-orders/action';
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
   /** TODO: взять переменную из стора */
+  const orders: TOrder[] = useSelector(selectMyOrders);
 
   useEffect(() => {
     dispatch(getMyOrders());
-  }, []);
-  const orders: TOrder[] = useSelector(selectMyOrders);
+  }, [orders]);
 
   return <ProfileOrdersUI orders={orders} />;
 };

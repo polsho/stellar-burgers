@@ -11,7 +11,13 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 
 import {
@@ -24,6 +30,8 @@ import {
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
 import { checkUserAuth } from '../../services/auth/actions';
+import { WrapperUI } from '../ui/pages/wrapper/wrapper';
+import { getMyOrders } from '../../services/my-orders/action';
 import { getFeed } from '../../services/feed/action';
 
 export const App = () => {
@@ -31,16 +39,18 @@ export const App = () => {
   const background = location.state?.background;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(checkUserAuth());
+    dispatch(getMyOrders());
+    dispatch(getFeed());
   }, []);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      {/* <ConstructorPage /> */}
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
@@ -72,14 +82,32 @@ export const App = () => {
         <Route
           path='/ingredients/:id'
           element={
-            <Modal
+            <WrapperUI
               title='Детали ингредиента'
-              onClose={() => {
-                navigate(-1);
-              }}
-            >
-              <IngredientDetails />
-            </Modal>
+              component={<IngredientDetails />}
+            />
+          }
+        />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute
+              component={<WrapperUI title='' component={<OrderInfo />} />}
+            />
+          }
+        />
+        <Route
+          path='/feed/:number'
+          element={
+            <ProtectedRoute
+              onlyUnAuth
+              component={
+                <WrapperUI
+                  title={params.number || ''}
+                  component={<OrderInfo />}
+                />
+              }
+            />
           }
         />
       </Routes>
@@ -116,7 +144,7 @@ export const App = () => {
             path='/profile/orders/:number'
             element={
               <Modal
-                title=''
+                title={params.number || ''}
                 onClose={() => {
                   navigate(-1);
                 }}

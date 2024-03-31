@@ -9,12 +9,11 @@ import { getFeed } from '../../services/feed/action';
 export const Feed: FC = () => {
   const dispatch = useDispatch();
   /** TODO: взять переменную из стора */
-
-  useEffect(() => {
-    dispatch(getFeed());
-  }, []);
-
   const orders: TOrder[] = useSelector(selectOrders);
+
+  // useEffect(() => {
+  //   dispatch(getFeed());
+  // }, [orders]);
 
   if (!orders.length) {
     return <Preloader />;

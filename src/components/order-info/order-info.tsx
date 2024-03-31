@@ -12,10 +12,9 @@ export const OrderInfo: FC = () => {
   const params = useParams();
   const location = useLocation();
   const from = location.state;
-  const orders =
-    from.background.pathname === '/feed'
-      ? useSelector(selectOrders)
-      : useSelector(selectMyOrders);
+  const orders = /^\/profile/.test(location.pathname)
+    ? useSelector(selectMyOrders)
+    : useSelector(selectOrders);
   /** TODO: взять переменные orderData и ingredients из стора */
   const orderData = orders?.find((o) => o.number.toString() === params.number);
 
