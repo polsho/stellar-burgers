@@ -11,7 +11,6 @@ import { selectMyOrders } from '../../services/my-orders/slice';
 export const OrderInfo: FC = () => {
   const params = useParams();
   const location = useLocation();
-  const from = location.state;
   const orders = /^\/profile/.test(location.pathname)
     ? useSelector(selectMyOrders)
     : useSelector(selectOrders);

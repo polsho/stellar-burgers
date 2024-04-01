@@ -40,6 +40,20 @@ const burgerConstructorSlice = createSlice({
         state.constructorItems?.ingredients?.push(ingredient);
       }
     },
+    moveConstructorItemUp: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      const ingredients = state.constructorItems.ingredients;
+      const ingredient = ingredients[index];
+      ingredients.splice(index, 1);
+      ingredients.splice(index - 1, 0, ingredient);
+    },
+    moveConstructorItemDown: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      const ingredients = state.constructorItems.ingredients;
+      const ingredient = ingredients[index];
+      ingredients.splice(index, 1);
+      ingredients.splice(index + 1, 0, ingredient);
+    },
     deleteConstructorItem: (
       state,
       action: PayloadAction<TConstructorIngredient>
@@ -75,6 +89,8 @@ export const {
   setOrderRequest,
   setOrderModalData,
   setConstructorItems,
+  moveConstructorItemUp,
+  moveConstructorItemDown,
   deleteConstructorItem,
   clearConstructor
 } = burgerConstructorSlice.actions;

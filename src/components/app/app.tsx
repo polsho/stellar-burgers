@@ -101,12 +101,7 @@ export const App = () => {
           element={
             <ProtectedRoute
               onlyUnAuth
-              component={
-                <WrapperUI
-                  title={params.number || ''}
-                  component={<OrderInfo />}
-                />
-              }
+              component={<WrapperUI title='' component={<OrderInfo />} />}
             />
           }
         />
@@ -144,7 +139,7 @@ export const App = () => {
             path='/profile/orders/:number'
             element={
               <Modal
-                title={params.number || ''}
+                title=''
                 onClose={() => {
                   navigate(-1);
                 }}
