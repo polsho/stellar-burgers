@@ -27,13 +27,15 @@ export const BurgerConstructor: FC = () => {
   const onOrderClick = () => {
     if (!user) {
       navigate('/login');
-    }
-    if (!constructorItems.bun || orderRequest) return;
-    else {
-      const ingredients = constructorItems.ingredients?.map((i) => i._id) || [];
-      ingredients.unshift(constructorItems.bun._id);
-      ingredients.push(constructorItems.bun._id);
-      dispatch(orderBurger(ingredients));
+    } else {
+      if (!constructorItems.bun || orderRequest) return;
+      else {
+        const ingredients =
+          constructorItems.ingredients?.map((i) => i._id) || [];
+        ingredients.unshift(constructorItems.bun._id);
+        ingredients.push(constructorItems.bun._id);
+        dispatch(orderBurger(ingredients));
+      }
     }
   };
   const closeOrderModal = () => {
