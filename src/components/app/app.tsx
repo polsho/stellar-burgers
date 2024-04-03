@@ -31,8 +31,6 @@ import { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
 import { checkUserAuth } from '../../services/auth/actions';
 import { WrapperUI } from '../ui/pages/wrapper/wrapper';
-import { getMyOrders } from '../../services/my-orders/action';
-import { getFeed } from '../../services/feed/action';
 
 export const App = () => {
   const location = useLocation();
@@ -44,8 +42,6 @@ export const App = () => {
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(checkUserAuth());
-    dispatch(getMyOrders());
-    dispatch(getFeed());
   }, []);
 
   return (

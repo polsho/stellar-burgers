@@ -10,11 +10,6 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
-// const linkClassName = clsx({
-//   link: true,
-//   link_active: location.pathname === '/' ? true : false
-// });
-
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
   const location = useLocation();
 

@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { orderBurger } from './action';
+import { v4 as uuidv4 } from 'uuid';
 
 type TConstructorItems = {
   bun: TConstructorIngredient | null;
@@ -29,15 +30,18 @@ const burgerConstructorSlice = createSlice({
     setOrderModalData: (state, action: PayloadAction<TOrder | null>) => {
       state.orderModalData = action.payload;
     },
-    setConstructorItems: (
-      state,
-      action: PayloadAction<TConstructorIngredient>
-    ) => {
-      const ingredient = action.payload;
-      if (ingredient.type === 'bun') {
-        state.constructorItems.bun = ingredient;
-      } else {
-        state.constructorItems?.ingredients?.push(ingredient);
+    addItemToConstructor: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        const ingredient = action.payload;
+        if (ingredient.type === 'bun') {
+          state.constructorItems.bun = ingredient;
+        } else {
+          state.constructorItems?.ingredients?.push(ingredient);
+        }
+      },
+      prepare: (ingredient: TIngredient) => {
+        const id: string = uuidv4();
+        return { payload: { ...ingredient, id } };
       }
     },
     moveConstructorItemUp: (state, action: PayloadAction<number>) => {
@@ -88,7 +92,7 @@ const burgerConstructorSlice = createSlice({
 export const {
   setOrderRequest,
   setOrderModalData,
-  setConstructorItems,
+  addItemToConstructor,
   moveConstructorItemUp,
   moveConstructorItemDown,
   deleteConstructorItem,

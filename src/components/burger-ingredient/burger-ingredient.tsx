@@ -4,20 +4,15 @@ import { useLocation } from 'react-router-dom';
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
 import { useDispatch } from '../../services/store';
-import { setConstructorItems } from '../../services/burger-constructor/slice';
-import { TConstructorIngredient } from '@utils-types';
+import { addItemToConstructor } from '../../services/burger-constructor/slice';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const constructorIngredient: TConstructorIngredient = {
-      ...ingredient,
-      id: ingredient._id + count?.toString()
-    };
     const handleAdd = () => {
-      dispatch(setConstructorItems(constructorIngredient));
+      dispatch(addItemToConstructor(ingredient));
     };
 
     return (
@@ -30,7 +25,3 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     );
   }
 );
-
-// function setConstructorItems(): any {
-//   throw new Error('Function not implemented.');
-// }

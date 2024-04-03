@@ -13,7 +13,7 @@ export const Feed: FC = () => {
 
   useEffect(() => {
     dispatch(getFeed());
-  }, [orders]);
+  }, [dispatch]);
 
   if (!orders.length) {
     return <Preloader />;

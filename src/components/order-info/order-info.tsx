@@ -1,21 +1,23 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { selectIngredients } from '../../services/ingredients/slice';
-import { useLocation, useParams } from 'react-router-dom';
-import { selectOrders } from '../../services/feed/slice';
-import { selectMyOrders } from '../../services/my-orders/slice';
+import { useParams } from 'react-router-dom';
+import { selectOrder } from '../../services/feed/slice';
+import { getOrderById } from '../../services/feed/action';
 
 export const OrderInfo: FC = () => {
   const params = useParams();
-  const location = useLocation();
-  const orders = /^\/profile/.test(location.pathname)
-    ? useSelector(selectMyOrders)
-    : useSelector(selectOrders);
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = orders?.find((o) => o.number.toString() === params.number);
+  const dispatch = useDispatch();
+
+  const orderId = parseInt(params.number || '');
+  useEffect(() => {
+    dispatch(getOrderById(orderId));
+  }, [orderId]);
+
+  const orderData = useSelector(selectOrder);
 
   const ingredients = useSelector(selectIngredients);
 

@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { login, logout, register, updateUser } from './actions';
+import { checkUserAuth, login, logout, register, updateUser } from './actions';
+import { deleteCookie } from '../../utils/cookie';
 
 type TAuthState = {
   user: TUser | null;
