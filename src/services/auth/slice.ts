@@ -50,6 +50,10 @@ const authSlice = createSlice({
         state.isAuthChecked = true;
         state.errorText = '';
       })
+      .addCase(checkUserAuth.rejected, () => {
+        deleteCookie('accessToken');
+        localStorage.removeItem('refreshToken');
+      })
       .addCase(register.rejected, (state, action) => {
         state.errorText = action.error.message || '';
       })
