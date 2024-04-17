@@ -14,7 +14,7 @@ type TBurgerConstructorState = {
   orderModalData: TOrder | null;
 };
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
   constructorItems: { bun: null, ingredients: [] },
   orderRequest: false,
   orderModalData: null
